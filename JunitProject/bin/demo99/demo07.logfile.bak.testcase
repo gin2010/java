@@ -1,0 +1,56 @@
+package demo07;
+
+import static org.junit.Assert.*;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+public class LogAnalyzerTestCase {
+	LogAnalyzer logAnalyzer=null;
+	
+	@Before
+	public void setup(){
+		logAnalyzer=new LogAnalyzer();
+	}
+	@After
+	public void tearDown(){
+		logAnalyzer=null;
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void Throws_exception_for_null() {
+		assertTrue(logAnalyzer.isValidLogFileName(null));
+	}
+	@Test(expected = IllegalArgumentException.class)
+	public void Throws_exception_for_empty() {
+		assertTrue(logAnalyzer.isValidLogFileName(null));
+	}
+	@Test
+	public void isValidFilename__tooShortFilename_returnFalse(){
+		assertFalse(logAnalyzer.isValidLogFileName("name.Log"));
+	}	
+	@Test
+	public void isValidFilename__endsWithLogName_returnFalse(){
+		assertFalse(logAnalyzer.isValidLogFileName("filename"));
+	}	
+	@Test 
+	public void isValidFilename_validFileLowerCased_returnTrue(){
+		assertTrue(logAnalyzer.isValidLogFileName("systemfilename.log"));
+	}	
+	@Test
+	public void isValidFilename_validFileUpperCased_returnTrue(){
+		assertTrue(logAnalyzer.isValidLogFileName("systemfilename.LOG"));
+	}
+
+	
+	@Test
+	public void Throws_exception_Message_for_empty() {
+		try {
+			assertTrue(logAnalyzer.isValidLogFileName("   "));
+			fail();
+		} catch (IllegalArgumentException e) {
+			assertEquals("文件名不能为空格！", e.getMessage());
+		}
+	}
+}
