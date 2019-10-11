@@ -1,0 +1,75 @@
+package demo18;
+
+import static org.junit.Assert.assertEquals;
+import java.util.List;
+import org.junit.Test;
+
+
+
+public class TestTagNode02 {
+   @Test
+   public void rendersOneElement() {
+      String expected = "<orders/>";
+      TagNode orders = new TagNode("orders");
+      assertEquals(expected, orders.toString());
+   }
+   
+   @Test
+   public void rendersElementWithAttribute() {
+      String expected = "<order number=\"123\"/>";
+      TagNode order  = new TagNode("order");
+      order.addAttribute("number", "123");
+      assertEquals(expected, order.toString());
+   }
+   @Test
+   public void addsAttributesToArray() { 
+      TagNode order  = new TagNode("order");
+      order.addAttribute("number", "123");
+      order.addAttribute("another", "135");
+      List<Attribute> attributes = order.attributes;
+      assertEquals(2,attributes.size());
+      assertEquals("number",attributes.get(0).name());
+      assertEquals("123",attributes.get(0).value());
+      assertEquals("another",attributes.get(1).name());
+      assertEquals("135",attributes.get(1).value());
+   }
+   @Test
+   public void getsAttributeValuesByName() {
+      TagNode root = new TagNode("root");
+      root.addAttribute("attributeName1", "value 1");
+      root.addAttribute("attributeName2", "value 2");
+      assertEquals("value 1", root.getAttributeNamed("attributeName1"));
+      assertEquals("value 2", root.getAttributeNamed("attributeName2"));
+   }
+   @Test
+   public void rendersElementWithValueAndAttribute() {
+      String expected =
+      "<order number=\"123\">" +
+            "carDoor" +
+      "</order>";
+      TagNode order  = new TagNode("order");
+      order.addAttribute("number", "123");
+      order.addValue("carDoor");
+      assertEquals(expected, order.toString());
+   }
+   @Test
+   public void getsValue() {
+      TagNode root = new TagNode("root");
+      String EXPECTED_VALUE = "a value";
+      root.addValue(EXPECTED_VALUE);
+      assertEquals(EXPECTED_VALUE, root.getValue());
+   }
+   @Test  
+   public void nestsChildrenCorrectly() {
+      TagNode orders = new TagNode("orders");
+      orders.add(new TagNode("order1"));
+      orders.add(new TagNode("order2"));
+      orders.add(new TagNode("order3"));
+      TagNode order4 = new TagNode("order4");
+      order4.add(new TagNode("order4-child"));
+      orders.add(order4);
+      assertEquals(4,orders.children.size());
+      assertEquals("order4",orders.children.get(3).getName());
+      assertEquals("order4-child",orders.children.get(3).children.get(0).getName());
+   }
+}   
