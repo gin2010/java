@@ -1,4 +1,0 @@
-* TirePressureMonitoringSystem题目描述：
-在这个轮胎气压监测系统中，有两个类Alarm和Sensor，其中Sensor类负责获取用随机数来模拟生成的轮胎气压值，
-
-而Alarm类则检查Sensor传来的气压值，若在正常范围之外则报警。操练要求为Alarm类编写单元测试。
