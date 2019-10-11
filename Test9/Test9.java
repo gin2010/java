@@ -1,9 +1,10 @@
-ï»¿/*
+/*
 fomula_E => T (+T)*
 fomula_T => F (*F)*
 fomula_F => i | (E)
 */
 import java.util.ArrayList;
+
 
 public class Test9 {
     public static void main(String[] args) {
@@ -22,21 +23,24 @@ public class Test9 {
         String op;
 
         val = T(formula);
-
+		System.out.println("E--val(T-return):" + val);
+		
         while ((formula.cur_pos < formula.word.size()) &&
                 (formula.curWord().equals("+") ||
                 formula.curWord().equals("-"))) {
             op = formula.curWord();
+			System.out.println("E--op:" + op);
             formula.cur_pos++;
             val3 = T(formula);
-
+			System.out.println("E--val3(T-return):" + val3);
+			
             if (op.equals("+")) {
                 val += val3;
             } else {
                 val -= val3;
             }
         }
-
+		System.out.println("E--return val:" + val);
         return val;
     }
 
@@ -46,30 +50,34 @@ public class Test9 {
         String op;
 
         val = F(formula);
-
+		System.out.println("T--val(F-return):" + val);
+		
         while (((formula.cur_pos < formula.word.size()) &&
                 formula.curWord().equals("*")) ||
                 formula.curWord().equals("/")) {
             op = formula.curWord();
             formula.cur_pos++;
             val3 = F(formula);
-
+			System.out.println("T--val3:" + val3);
+			
             if (op.equals("*")) {
                 val *= val3;
             } else {
                 val /= val3;
             }
         }
-
+		System.out.println("T--return val:" + val);
         return val;
     }
 
     int F(Formula formula) {
+		
         int val;
         int val3;
         String op;
         String curWord = formula.curWord();
-
+		System.out.println("F--curword:" + curWord);
+		
         if (!(formula.curWord().equals("+") || formula.curWord().equals("-") ||
                 formula.curWord().equals("*") || formula.curWord().equals("/") ||
                 formula.curWord().equals("(") || formula.curWord().equals(")"))) {
@@ -79,7 +87,8 @@ public class Test9 {
         } else if (formula.curWord().equals("(")) {
             formula.cur_pos++;
             val = E(formula);
-
+			System.out.println("F--val:" + val);
+			
             if ((formula.cur_pos >= formula.word.size()) ||
                     !formula.curWord().equals(")")) {
                 formula.err = 1;
@@ -109,6 +118,7 @@ class Formula {
     String err_Msg;
 
     void word_initialize() {
+		//½«expressionÖÐÃ¿¸ö×Ö·û´æÈëµ½ListÁÐ±íwordÖÐ
         int pos = 0;
         char cur_Char;
 
@@ -119,8 +129,10 @@ class Formula {
                     (cur_Char == '-') || (cur_Char == '*') ||
                     (cur_Char == '/')) {
                 word.add("" + cur_Char);
+				System.out.println(word);
             } else if ((cur_Char >= '0') && (cur_Char <= '9')) {
                 word.add("" + cur_Char);
+				System.out.println(word);
             }
 
             pos++;
@@ -128,6 +140,7 @@ class Formula {
     }
 
     String curWord() {
+		//´ÓwordÖÐÈ¡µ¥¸öÔªËØ
         if (cur_pos >= word.size()) {
             return "";
         }
